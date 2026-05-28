@@ -1,0 +1,33 @@
+This application is a Ruby on Rails veterinary clinic system that manages pets, owners, vets, appointments, and treatments, including image uploads and rich text content.
+
+How to run the app
+
+To set up and run the application locally:
+
+bundle install
+rails db:create
+rails db:migrate
+rails db:seed
+bin/rails server
+
+Then open your browser at:
+
+http://localhost:3000
+
+This project uses Active Storage variants to process and resize images.
+For this reason, libvips must be installed on your system.
+
+Install on Linux / WSL:
+sudo apt update
+sudo apt install libvips
+
+Trix (Action Text) sanitization note
+
+The application uses Action Text (Trix editor) for rich text fields such as Treatment#clinical_notes.
+
+Important behavior:
+
+HTML input is automatically sanitized by Rails
+Unsafe tags and scripts are removed
+Only safe formatting (bold, lists, links, etc.) is preserved
+This ensures protection against XSS (cross-site scripting)

@@ -1,0 +1,34 @@
+<% @appointment.treatments.each do |t| %>
+  <li class="list-group-item">
+    <div class="d-flex justify-content-between align-items-start">
+      <div>
+        <strong><%= t.name %></strong><br>
+
+        <small>
+          <%= t.medication %> - <%= t.dosage %>
+        </small>
+
+        <div class="mt-2">
+          <%= t.clinical_notes %>
+        </div>
+
+        <small class="text-muted">
+          Administered at:
+          <%= t.administered_at.strftime("%B %d, %Y %H:%M") if t.administered_at %>
+        </small>
+      </div>
+
+      <div>
+        <%= link_to "Edit",
+              edit_appointment_treatment_path(@appointment, t),
+              class: "btn btn-sm btn-warning" %>
+
+        <%= button_to "Delete",
+              appointment_treatment_path(@appointment, t),
+              method: :delete,
+              data: { turbo_confirm: "Are you sure?" },
+              class: "btn btn-sm btn-danger mt-1" %>
+      </div>
+    </div>
+  </li>
+<% end %>

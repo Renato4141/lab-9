@@ -1,0 +1,12 @@
+<h1><%= @vet.first_name %> <%= @vet.last_name %></h1>
+
+<p>Email: <%= @vet.email %></p>
+<p>Phone: <%= @vet.phone %></p>
+<p>Specialization: <%= @vet.specialization %></p>
+
+<h2>Appointments</h2>
+<ul>
+  <% @vet.appointments.each do |a| %>
+    <li><%= link_to a.date, a %></li>
+  <% end %>
+</ul>

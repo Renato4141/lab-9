@@ -1,0 +1,43 @@
+<h1>Appointments</h1>
+
+<%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary mb-3" %>
+
+<div class="mb-3">
+  <%= link_to "All", appointments_path, class: "btn btn-secondary" %>
+  <%= link_to "Upcoming", appointments_path(filter: "upcoming"), class: "btn btn-primary" %>
+  <%= link_to "Past", appointments_path(filter: "past"), class: "btn btn-warning" %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Pet</th>
+      <th>Vet</th>
+      <th>Reason</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @appointments.each do |a| %>
+      <tr>
+        <td><%= a.date.strftime("%B %d, %Y") %></td>
+        <td><%= link_to a.pet.name, pet_path(a.pet) if a.pet %></td>
+        <td><%= link_to a.vet.first_name, vet_path(a.vet) if a.vet %></td>
+        <td><%= a.reason %></td>
+        <td><%= a.status&.humanize || "Sin estado" %></td>
+
+        <td>
+          <%= link_to "Edit", edit_appointment_path(a), class: "btn btn-sm btn-warning" %>
+
+          <%= button_to "Delete", appointment_path(a),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" },
+                class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,51 @@
+<h1><%= @pet.name %></h1>
+
+<% if @pet.photo.attached? %>
+  <div class="mb-3">
+    <%= image_tag @pet.photo.variant(resize_to_limit: [300, 300]), 
+          class: "img-fluid rounded" %>
+  </div>
+<% else %>
+  <div class="alert alert-secondary w-25 text-center">
+    No photo available
+  </div>
+<% end %>
+
+<p><strong>Species:</strong> <%= @pet.species %></p>
+<p><strong>Breed:</strong> <%= @pet.breed %></p>
+
+<p>
+  <strong>Birth:</strong>
+  <%= @pet.date_of_birth&.strftime("%B %d, %Y") %>
+</p>
+
+<p>
+  <strong>Weight:</strong> <%= @pet.weight %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= link_to @pet.owner&.first_name, owner_path(@pet.owner) if @pet.owner %>
+</p>
+
+<h2>Appointments</h2>
+
+<ul>
+  <% @pet.appointments.each do |a| %>
+    <li>
+      <%= link_to a.date.strftime("%B %d, %Y %H:%M"), appointment_path(a) %>
+    </li>
+  <% end %>
+</ul>
+
+<div class="mt-3">
+  <%= link_to "Edit", edit_pet_path(@pet), class: "btn btn-warning" %>
+
+  <%= button_to "Delete",
+        pet_path(@pet),
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" },
+        class: "btn btn-danger d-inline" %>
+
+  <%= link_to "Back", pets_path, class: "btn btn-secondary" %>
+</div>

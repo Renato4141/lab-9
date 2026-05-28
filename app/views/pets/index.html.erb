@@ -1,0 +1,65 @@
+<h1>Pets</h1>
+
+<%= link_to "New Pet", new_pet_path, class: "btn btn-primary mb-3" %>
+
+<div class="mb-3">
+  <%= link_to "All", pets_path, class: "btn btn-secondary" %>
+  <%= link_to "Dogs", pets_path(species: "dog"), class: "btn btn-primary" %>
+  <%= link_to "Cats", pets_path(species: "cat"), class: "btn btn-info" %>
+  <%= link_to "Rabbits", pets_path(species: "rabbit"), class: "btn btn-success" %>
+</div>
+
+<table class="table align-middle">
+  <thead>
+    <tr>
+      <th>Photo</th>
+      <th>Name</th>
+      <th>Species</th>
+      <th>Breed</th>
+      <th>Owner</th>
+      <th>Birth</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pets.each do |pet| %>
+      <tr>
+        <td>
+          <% if pet.photo.attached? %>
+            <%= image_tag pet.photo.variant(resize_to_fill: [60, 60]), 
+                  style: "width: 60px; height: 60px; object-fit: cover;",
+                  class: "rounded" %>
+          <% else %>
+            <div class="bg-light border rounded d-flex align-items-center justify-content-center"
+                 style="width: 60px; height: 60px;">
+              N/A
+            </div>
+          <% end %>
+        </td>
+
+        <td><%= link_to pet.name, pet_path(pet) %></td>
+        <td><%= pet.species %></td>
+        <td><%= pet.breed %></td>
+
+        <td>
+          <%= link_to pet.owner&.first_name, owner_path(pet.owner) if pet.owner %>
+        </td>
+
+        <td>
+          <%= pet.date_of_birth&.strftime("%B %d, %Y") %>
+        </td>
+
+        <td>
+          <%= link_to "Edit", edit_pet_path(pet), class: "btn btn-sm btn-warning" %>
+
+          <%= button_to "Delete",
+                pet_path(pet),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" },
+                class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

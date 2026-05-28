@@ -1,0 +1,39 @@
+<h1>Vets</h1>
+
+<%= link_to "New Vet", new_vet_path, class: "btn btn-primary mb-3" %>
+
+<div class="mb-3">
+  <%= link_to "All", vets_path, class: "btn btn-secondary" %>
+  <%= link_to "General", vets_path(specialization: "General"), class: "btn btn-primary" %>
+  <%= link_to "Surgery", vets_path(specialization: "Surgery"), class: "btn btn-danger" %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Specialization</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vets.each do |vet| %>
+      <tr>
+        <td><%= link_to "#{vet.first_name} #{vet.last_name}", vet_path(vet) %></td>
+        <td><%= vet.email %></td>
+        <td><%= vet.specialization %></td>
+
+        <td>
+          <%= link_to "Edit", edit_vet_path(vet), class: "btn btn-sm btn-warning" %>
+
+          <%= button_to "Delete", vet_path(vet),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" },
+                class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

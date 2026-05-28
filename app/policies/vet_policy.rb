@@ -25,7 +25,11 @@ class VetPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope.all
+      if user.admin? || user.vet? || user.owner?
+        scope.all
+      else
+        scope.none
+      end
     end
   end
 

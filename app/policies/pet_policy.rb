@@ -29,11 +29,11 @@ class PetPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if admin?
+      if user.admin?
         scope.all
-      elsif vet?
+      elsif user.vet?
         scope.all
-      elsif owner?
+      elsif user.owner?
         scope.joins(:owner).where(owners: { user_id: user.id })
       else
         scope.none

@@ -25,11 +25,11 @@ class OwnerPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if admin?
+      if user.admin?
         scope.all
-      elsif vet?
+      elsif user.vet?
         scope.all
-      elsif owner?
+      elsif user.owner?
         scope.where(user: user)
       else
         scope.none

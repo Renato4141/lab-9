@@ -33,11 +33,11 @@ class AppointmentPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if admin?
+      if user.admin?
         scope.all
-      elsif vet?
+      elsif user.vet?
         scope.where(vet: user.vet)
-      elsif owner?
+      elsif user.owner?
         scope.joins(pet: :owner).where(owners: { user_id: user.id })
       else
         scope.none

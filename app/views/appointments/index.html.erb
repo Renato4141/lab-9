@@ -1,6 +1,8 @@
 <h1>Appointments</h1>
 
-<%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary mb-3" %>
+<% if policy(Appointment.new).create? %>
+  <%= link_to "New Appointment", new_appointment_path, class: "btn btn-primary mb-3" %>
+<% end %>
 
 <div class="mb-3">
   <%= link_to "All", appointments_path, class: "btn btn-secondary" %>
@@ -30,12 +32,16 @@
         <td><%= a.status&.humanize || "Sin estado" %></td>
 
         <td>
-          <%= link_to "Edit", edit_appointment_path(a), class: "btn btn-sm btn-warning" %>
+          <% if policy(a).update? %>
+            <%= link_to "Edit", edit_appointment_path(a), class: "btn btn-sm btn-warning" %>
+          <% end %>
 
-          <%= button_to "Delete", appointment_path(a),
-                method: :delete,
-                data: { turbo_confirm: "Are you sure?" },
-                class: "btn btn-sm btn-danger" %>
+          <% if policy(a).destroy? %>
+            <%= button_to "Delete", appointment_path(a),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure?" },
+                  class: "btn btn-sm btn-danger" %>
+          <% end %>
         </td>
       </tr>
     <% end %>

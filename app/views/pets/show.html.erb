@@ -39,13 +39,17 @@
 </ul>
 
 <div class="mt-3">
-  <%= link_to "Edit", edit_pet_path(@pet), class: "btn btn-warning" %>
+  <% if policy(@pet).update? %>
+    <%= link_to "Edit", edit_pet_path(@pet), class: "btn btn-warning" %>
+  <% end %>
 
-  <%= button_to "Delete",
-        pet_path(@pet),
-        method: :delete,
-        data: { turbo_confirm: "Are you sure?" },
-        class: "btn btn-danger d-inline" %>
+  <% if policy(@pet).destroy? %>
+    <%= button_to "Delete",
+          pet_path(@pet),
+          method: :delete,
+          data: { turbo_confirm: "Are you sure?" },
+          class: "btn btn-danger d-inline" %>
+  <% end %>
 
   <%= link_to "Back", pets_path, class: "btn btn-secondary" %>
 </div>

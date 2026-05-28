@@ -4,6 +4,10 @@
 <p>Phone: <%= @vet.phone %></p>
 <p>Specialization: <%= @vet.specialization %></p>
 
+<% if policy(@vet).update? %>
+  <%= link_to "Edit", edit_vet_path(@vet), class: "btn btn-warning mb-3" %>
+<% end %>
+
 <h2>Appointments</h2>
 <ul>
   <% @vet.appointments.each do |a| %>

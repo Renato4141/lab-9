@@ -4,6 +4,10 @@
 <p>Phone: <%= @owner.phone %></p>
 <p>Address: <%= @owner.address %></p>
 
+<% if policy(@owner).update? %>
+  <%= link_to "Edit", edit_owner_path(@owner), class: "btn btn-warning mb-3" %>
+<% end %>
+
 <h2>Pets</h2>
 <ul>
   <% @owner.pets.each do |pet| %>

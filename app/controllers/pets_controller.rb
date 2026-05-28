@@ -2,19 +2,23 @@ class PetsController < ApplicationController
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
 
   def index
-    @pets = params[:species] ? Pet.by_species(params[:species]) : Pet.all
+    @pets = policy_scope(Pet)
+    @pets = @pets.by_species(params[:species]) if params[:species].present?
   end
 
   def show
+    authorize @pet
   end
 
   def new
     @pet = Pet.new
+    authorize @pet
   end
 
   def create
-    @pet = Pet.new(pet_params)
-    if @pet.save
+    @pet = Pet.new
+    authorize @pet
+    if @pet.update(pet_params)
       redirect_to @pet, notice: "Pet created successfully"
     else
       render :new, status: :unprocessable_entity
@@ -22,9 +26,11 @@ class PetsController < ApplicationController
   end
 
   def edit
+    authorize @pet
   end
 
   def update
+    authorize @pet
     if @pet.update(pet_params)
       redirect_to @pet, notice: "Pet updated successfully"
     else
@@ -33,6 +39,7 @@ class PetsController < ApplicationController
   end
 
   def destroy
+    authorize @pet
     @pet.destroy
     redirect_to pets_path, notice: "Pet deleted successfully"
   end
@@ -44,6 +51,6 @@ class PetsController < ApplicationController
   end
 
   def pet_params
-    params.require(:pet).permit(:name, :species, :breed, :date_of_birth, :weight, :owner_id, :photo)
+    params.require(:pet).permit(permitted_attributes(@pet))
   end
 end

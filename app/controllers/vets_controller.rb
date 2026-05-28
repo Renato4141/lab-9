@@ -1,4 +1,7 @@
 class VetsController < ApplicationController
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
   before_action :set_vet, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -16,9 +19,9 @@ class VetsController < ApplicationController
   end
 
   def create
-    @vet = Vet.new(vet_params)
+    @vet = Vet.new
     authorize @vet
-    if @vet.save
+    if @vet.update(vet_params)
       redirect_to @vet, notice: "Vet created successfully"
     else
       render :new, status: :unprocessable_entity

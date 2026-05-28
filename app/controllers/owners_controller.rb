@@ -1,4 +1,7 @@
 class OwnersController < ApplicationController
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
   before_action :set_owner, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -15,9 +18,9 @@ class OwnersController < ApplicationController
   end
 
   def create
-    @owner = Owner.new(owner_params)
+    @owner = Owner.new
     authorize @owner
-    if @owner.save
+    if @owner.update(owner_params)
       redirect_to @owner, notice: "Owner created successfully"
     else
       render :new, status: :unprocessable_entity

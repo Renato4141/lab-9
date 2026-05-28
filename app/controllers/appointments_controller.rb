@@ -1,13 +1,20 @@
 class AppointmentsController < ApplicationController
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
 
   def index
     @appointments = policy_scope(Appointment.includes(:pet, :vet))
+
     @appointments =
       case params[:filter]
-      when "upcoming" then @appointments.upcoming
-      when "past"     then @appointments.past
-      else @appointments
+      when "upcoming"
+        @appointments.upcoming
+      when "past"
+        @appointments.past
+      else
+        @appointments
       end
   end
 
@@ -21,9 +28,9 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = Appointment.new(appointment_params)
+    @appointment = Appointment.new
     authorize @appointment
-    if @appointment.save
+    if @appointment.update(appointment_params)
       redirect_to @appointment, notice: "Appointment was successfully created."
     else
       render :new, status: :unprocessable_entity

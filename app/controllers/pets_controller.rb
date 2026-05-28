@@ -1,4 +1,7 @@
 class PetsController < ApplicationController
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -16,9 +19,9 @@ class PetsController < ApplicationController
   end
 
   def create
-    @pet = Pet.new(pet_params)
+    @pet = Pet.new
     authorize @pet
-    if @pet.save
+    if @pet.update(pet_params)
       redirect_to @pet, notice: "Pet created successfully"
     else
       render :new, status: :unprocessable_entity

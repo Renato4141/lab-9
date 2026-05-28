@@ -1,4 +1,6 @@
 class TreatmentsController < ApplicationController
+  after_action :verify_authorized
+
   before_action :set_appointment
   before_action :set_treatment, only: [:edit, :update, :destroy]
 

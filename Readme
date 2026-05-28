@@ -1,33 +1,49 @@
-This application is a Ruby on Rails veterinary clinic system that manages pets, owners, vets, appointments, and treatments, including image uploads and rich text content.
+# VetClinic
 
-How to run the app
+Rails veterinary clinic system with Pundit authorization.
 
-To set up and run the application locally:
+# Setup
 
+```bash
 bundle install
-rails db:create
-rails db:migrate
-rails db:seed
+bin/rails db:drop db:create db:migrate db:seed
 bin/rails server
+Requires libvips for image processing (sudo apt install libvips on Ubuntu).
 
-Then open your browser at:
+Authorization
 
-http://localhost:3000
+This application enforces three roles. Admins have full CRUD access to every resource. 
+Vets have read-only access to Owners, Pets, and Vets, plus full control over their own assigned Appointments and Treatments; they may also edit their own Vet profile. 
+Owners can manage their own Owner record, their own Pets, and Appointments for those Pets; they can view all Vets but cannot create or modify Treatments. 
+All authorization checks are handled through Pundit policies and scopes, with UI controls hidden when the current user lacks permission.
 
-This project uses Active Storage variants to process and resize images.
-For this reason, libvips must be installed on your system.
+Admin
+admin@vetclinic.com
+password
 
-Install on Linux / WSL:
-sudo apt update
-sudo apt install libvips
+-------
 
-Trix (Action Text) sanitization note
+Vet
+anabela@vet.com
+password
+Anabela Silvanus (General) — has assigned appointments with treatments
 
-The application uses Action Text (Trix editor) for rich text fields such as Treatment#clinical_notes.
+Vet
+cabracobra@vet.com
+password
+Cabro Cabreras (Surgery) — has assigned appointments with treatments
 
-Important behavior:
+Owner
+bancodetitirilquen@gmail.com
+password
+Juan Carlos Bodoque — has 2 pets and appointments
 
-HTML input is automatically sanitized by Rails
-Unsafe tags and scripts are removed
-Only safe formatting (bold, lists, links, etc.) is preserved
-This ensures protection against XSS (cross-site scripting)
+Owner
+juaninjh@gmail.com
+password
+Juanin Juan Harry — has 2 pets and appointments
+
+Owner
+mhugo@gmail.com
+password
+Mario Hugo — has 1 pet and appointment

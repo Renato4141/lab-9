@@ -26,9 +26,6 @@ owner3 = Owner.create!(first_name: "Mario", last_name: "Hugo",
                        email: "mhugo@gmail.com", phone: "987654",
                        address: "Esquina Ministro Carvajal", user: owner_user3)
 
-owner4 = Owner.create!(first_name: "Tulio", last_name: "Triviño",
-                       email: "tulio@31minutos.com", phone: "777777",
-                       address: "Canal 31")
 
 
 pet1 = owner1.pets.create!(name: "Estalagtimitiquita", species: "dog",  breed: "Labrador", date_of_birth: "2020-01-01", weight: 25.5)
@@ -36,7 +33,6 @@ pet2 = owner1.pets.create!(name: "Carambolas",         species: "cat",  breed: "
 pet3 = owner2.pets.create!(name: "Barney",             species: "rabbit", breed: "Mini Lop", date_of_birth: "2020-03-15", weight: 2.1)
 pet4 = owner3.pets.create!(name: "Gonzo",              species: "dog",  breed: "Bulldog",  date_of_birth: "2020-07-20", weight: 20.0)
 pet5 = owner2.pets.create!(name: "Lunares",            species: "cat",  breed: "Persian",  date_of_birth: "2020-11-11", weight: 4.8)
-pet6 = owner4.pets.create!(name: "Bodokino",           species: "dog",  breed: "Poodle",   date_of_birth: "2021-02-14", weight: 8.0)
 
 def attach_photo(pet, filename)
   path = Rails.root.join("db/seeds/pets", filename)
@@ -59,9 +55,6 @@ vet2 = Vet.create!(first_name: "Cabro", last_name: "Cabreras",
                    specialization: "Surgery", user: vet_user2)
 
 
-vet3 = Vet.create!(first_name: "Patana", last_name: "Tufillo",
-                   email: "patana@vet.com", phone: "333333",
-                   specialization: "Dentistry")
 
 
 app1 = Appointment.create!(pet: pet1, vet: vet1, date: 3.days.from_now, reason: "Checkup",    status: 0)
@@ -73,15 +66,13 @@ app3 = Appointment.create!(pet: pet3, vet: vet2, date: 2.days.ago,  reason: "Inj
 app4 = Appointment.create!(pet: pet4, vet: vet2, date: 5.days.ago,  reason: "Surgery", status: 2)
 
 
-app6 = Appointment.create!(pet: pet6, vet: vet3, date: 2.days.from_now, reason: "Cleaning", status: 0)
-
 
 Treatment.create!(appointment: app2, name: "Antibiotic",     medication: "Amoxicillin", dosage: "2x daily", administered_at: Time.now, clinical_notes: "Infection")
 Treatment.create!(appointment: app2, name: "Vitamin",        medication: "Vit C",       dosage: "1x daily", administered_at: Time.now, clinical_notes: "Immune boost")
 Treatment.create!(appointment: app3, name: "Pain relief",    medication: "Ibuprofen",   dosage: "1x daily", administered_at: Time.now, clinical_notes: "Post injury")
 Treatment.create!(appointment: app3, name: "Bandage",        medication: "None",        dosage: "N/A",      administered_at: Time.now, clinical_notes: "Wound care")
 Treatment.create!(appointment: app4, name: "Post surgery",   medication: "Antibiotics", dosage: "3x daily", administered_at: Time.now, clinical_notes: "Recovery")
-Treatment.create!(appointment: app6, name: "Dental cleaning", medication: "Anesthesia", dosage: "1x",       administered_at: Time.now, clinical_notes: "Routine")
+
 
 puts "Seeded:"
 puts "  #{User.count} users (1 admin, #{User.vet.count} vets, #{User.owner.count} owners)"

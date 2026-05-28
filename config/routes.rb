@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, skip: [:registrations]
 
-  root "owners#index"
+  root "pages#home"
 
   resources :owners
   resources :pets
@@ -9,6 +9,6 @@ Rails.application.routes.draw do
   resources :appointments do
     resources :treatments, except: [:index, :show]
   end
-  
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

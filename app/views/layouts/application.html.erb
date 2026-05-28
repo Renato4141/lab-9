@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Lab03Renato4141</title>
-
+    <title>VetClinic</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-
     <%= javascript_include_tag "application", type: "module" %>
   </head>
 
@@ -17,13 +13,7 @@
     <%= render "layouts/navbar" %>
 
     <div class="container mt-3">
-      <% flash.each do |type, message| %>
-        <div class="alert <%= type == "notice" ? "alert-success" : "alert-danger" %> alert-dismissible fade show">
-          <%= message %>
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-      <% end %>
-
+      <%= render "shared/flash" %>
       <%= yield %>
     </div>
   </body>

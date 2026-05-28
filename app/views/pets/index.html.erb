@@ -21,9 +21,13 @@
         <td><%= link_to pet.name, pet %></td>
         <td><%= pet.species %></td>
         <td><%= pet.breed %></td>
-        <td>
-          <%= link_to pet.owner&.first_name, owner_path(pet.owner) if pet.owner %>
-        </td>
+    <td>
+      <% if pet.owner && policy(pet.owner).show? %>
+        <%= link_to pet.owner.first_name, owner_path(pet.owner) %>
+      <% else %>
+        <%= pet.owner&.first_name %>
+    <% end %>
+    </td>
 
         <td>
           <% if policy(pet).update? %>

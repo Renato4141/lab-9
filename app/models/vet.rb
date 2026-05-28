@@ -1,15 +1,13 @@
-class Owner < ApplicationRecord
+class Vet < ApplicationRecord
   belongs_to :user, optional: true
-  has_many :pets, dependent: :destroy
-
-  def normalize_email
-    self.email = email.to_s.downcase.strip
-  end
-
-  before_validation :normalize_email
+  has_many :appointments, dependent: :destroy
 
   validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :phone, presence: true
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :last_name,  presence: true
+  validates :phone,      presence: true
+  validates :email,      presence: true, uniqueness: true,
+                         format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :specialization, presence: true
+
+  scope :by_specialization, ->(s) { where(specialization: s) }
 end

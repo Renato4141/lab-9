@@ -3,15 +3,11 @@ class AppointmentsController < ApplicationController
 
   def index
     @appointments = policy_scope(Appointment.includes(:pet, :vet))
-
     @appointments =
       case params[:filter]
-      when "upcoming"
-        @appointments.upcoming
-      when "past"
-        @appointments.past
-      else
-        @appointments
+      when "upcoming" then @appointments.upcoming
+      when "past"     then @appointments.past
+      else @appointments
       end
   end
 
@@ -25,9 +21,9 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = Appointment.new
+    @appointment = Appointment.new(appointment_params)
     authorize @appointment
-    if @appointment.update(appointment_params)
+    if @appointment.save
       redirect_to @appointment, notice: "Appointment was successfully created."
     else
       render :new, status: :unprocessable_entity

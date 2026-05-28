@@ -25,7 +25,11 @@
 
 <p>
   <strong>Owner:</strong>
-  <%= link_to @pet.owner&.first_name, owner_path(@pet.owner) if @pet.owner %>
+  <% if @pet.owner && policy(@pet.owner).show? %>
+    <%= link_to @pet.owner.first_name, owner_path(@pet.owner) %>
+  <% elsif @pet.owner %>
+    <%= @pet.owner.first_name %>
+  <% end %>
 </p>
 
 <h2>Appointments</h2>

@@ -16,9 +16,9 @@ class VetsController < ApplicationController
   end
 
   def create
-    @vet = Vet.new
+    @vet = Vet.new(vet_params)
     authorize @vet
-    if @vet.update(vet_params)
+    if @vet.save
       redirect_to @vet, notice: "Vet created successfully"
     else
       render :new, status: :unprocessable_entity

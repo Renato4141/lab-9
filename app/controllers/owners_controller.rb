@@ -15,9 +15,9 @@ class OwnersController < ApplicationController
   end
 
   def create
-    @owner = Owner.new
+    @owner = Owner.new(owner_params)
     authorize @owner
-    if @owner.update(owner_params)
+    if @owner.save
       redirect_to @owner, notice: "Owner created successfully"
     else
       render :new, status: :unprocessable_entity
